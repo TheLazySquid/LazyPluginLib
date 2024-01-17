@@ -1,0 +1,32 @@
+{
+  "name": "lazypluginlib",
+  "version": "0.1.0",
+  "description": "A library to help me make BetterDiscord plugins",
+  "main": "src/main.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheLazySquid/LazyPluginLib"
+  },
+  "bin": {
+    "lazypluginlib": "./bin/lazypluginlib.js",
+    "lpl": "./bin/lazypluginlib.js"
+  },
+  "keywords": [
+    "BetterDiscord"
+  ],
+  "author": "TheLazySquid",
+  "license": "MIT",
+  "dependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "dotenv": "^16.3.1",
+    "rollup": "^4.9.5",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.48"
+  }
+}
