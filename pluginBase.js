@@ -57,7 +57,7 @@ module.exports = class {
                 }
             });
 
-            onStart(() => {
+            let startDispose = onStart(() => {
                 observer.observe(document.body, { childList: true, subtree: true });
 
                 for(let element of document.querySelectorAll(selector)) {
@@ -65,9 +65,15 @@ module.exports = class {
                 }
             });
 
-            onStop(() => {
+            let stopDispose = onStop(() => {
                 observer.disconnect();
             });
+
+            return () => {
+                observer.disconnect();
+                startDispose();
+                stopDispose();
+            }
         }
 
         const setSettingsPanel = (el) => {
