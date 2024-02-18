@@ -2,11 +2,12 @@
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 import { join, resolve } from "path";
-import build from "../index.js";
+import build from "../build.js";
 import fs from "fs";
 import { pathToFileURL } from "url";
 
 yargs(hideBin(process.argv))
+  .scriptName("lpl")
   .command('build', 'build the project', {
     noPluginFolder: {
       type: 'boolean',

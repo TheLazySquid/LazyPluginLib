@@ -1,8 +1,8 @@
 {
   "name": "lazypluginlib",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A library to help me make BetterDiscord plugins",
-  "main": "src/main.ts",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

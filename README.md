@@ -59,19 +59,13 @@ This function sets the plugin's settings panel to an HTML or React Element.
 This example program automatically removes your profile picture when you start the plugin and adds it back when you stop it.
 
 ```js
-// there really aren't any imports here. Don't question. Just enjoy.
+import { watchElement, onStop } from "lazypluginlib";
 
-watchElement(".avatar_f8541f", (avatar) => {
+watchElement("[class*='avatarWrapper'] > *", (avatar) => {
     avatar.style.display = "none";
 
     onStop(() => {
         avatar.style.display = "";
     }, true, "avatar");
-})
+});
 ```
-
-## Typescript
-
-If you want to use types for the built-in functions, you can import 'lazypluginlib/types.d.ts' as the top of your code. This (hopefully) should make typescript happy. This is definitiely not the best way to do it, but it works. If you have a better way, please let me know.
-
-Additionally, I recommend using [betterdiscord-types](https://github.com/Zerthox/betterdiscord-types) by Zerthox. It provides types for BdApi and Lodash.

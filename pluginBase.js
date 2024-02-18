@@ -33,11 +33,13 @@ module.exports = class {
                 return delCallback;
             }
         }
-        
+
         const onStart = createCallbackHandler("start");
         const onStop = createCallbackHandler("stop");
+//#IF onSwitch
         const onSwitch = createCallbackHandler("onSwitch");
-
+//#ENDIF
+//#IF watchElement
         const watchElement = (selector, callback) => {
             let observer = new MutationObserver((mutations) => {
                 for (let mutation of mutations) {
@@ -75,29 +77,31 @@ module.exports = class {
                 stopDispose();
             }
         }
+//#ENDIF
 
+//#IF setSettingsPanel
         const setSettingsPanel = (el) => {
             this.getSettingsPanel = () => el;
         }
+//#ENDIF
 //#CODE
     }
-
 
     start() {
         for(let callback of this.startCallbacks) {
             callback.callback();
         }
     }
-    
     stop() {
         for(let callback of this.stopCallbacks) {
             callback.callback();
         }
     }
-
+//#IF onSwitch
     onSwitch() {
         for(let callback of this.onSwitchCallbacks) {
             callback.callback();
         }
     }
+//#ENDIF
 }
