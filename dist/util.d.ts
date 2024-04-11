@@ -7,7 +7,11 @@
 export declare function watchElement(selector: string, callback: (element: Element) => void): () => void;
 type PatchAfterCallback<ReturnValue> = (thisObject: any, args: any[], returnValue: any) => ReturnValue;
 interface IPatchPathPart {
-    path: (string | number)[];
+    path?: (string | number)[];
+    customPath?: {
+        finalProp: string;
+        run: (object: any) => any | any[];
+    };
     validate?: PatchAfterCallback<boolean>;
 }
 /**

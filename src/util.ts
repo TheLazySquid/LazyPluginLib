@@ -50,7 +50,8 @@ type PatchAfterCallback<ReturnValue> = (thisObject: any, args: any[], returnValu
 
 // say that five times fast
 interface IPatchPathPart {
-    path: (string | number)[]
+    path?: (string | number)[]
+    customPath?: { finalProp: string, run: (object: any) => any | any[] }
     validate?: PatchAfterCallback<boolean>
 }
 
@@ -72,17 +73,33 @@ export function chainPatch(module: any, callback: PatchAfterCallback<any>, ...pa
         // the variable names here are a mess
         let pathPart = path[depth];
 
-        let patchProp = pathPart.path[pathPart.path.length - 1];
-        
-        let toPatch = object;
-        for(let i = 0; i < pathPart.path.length - 1; i++) {
-            let prop = pathPart.path[i];
-            toPatch = toPatch[prop];
+        let toPatchArray: any[] = [];
+        let patchProp: string | number;
+
+        if(pathPart.path) {
+            patchProp = pathPart.path[pathPart.path.length - 1];
+            
+            let toPatch = object;
+            for(let i = 0; i < pathPart.path.length - 1; i++) {
+                let prop = pathPart.path[i];
+                toPatch = toPatch[prop];
+            }
+
+            toPatchArray.push(toPatch);
+        } else if(pathPart.customPath) {
+            patchProp = pathPart.customPath.finalProp;
+
+            let customPath = pathPart.customPath.run(object);
+            if(Array.isArray(customPath)) {
+                toPatchArray.push(...customPath);
+            } else {
+                toPatchArray.push(customPath);
+            }
         }
 
         // patch the function
         if(!patchedFns[depth]) {
-            let nativeFn = toPatch[patchProp];
+            let nativeFn = toPatchArray[0][patchProp!];
             patchedFns[depth] = function(...args: any[]) {
                 let returnVal = nativeFn.call(this, ...args);
 
@@ -99,12 +116,18 @@ export function chainPatch(module: any, callback: PatchAfterCallback<any>, ...pa
                 return returnVal;
             }
 
+            // add a dispose function
             disposeFns[depth] = () => {
-                toPatch[patchProp] = nativeFn;
+                for(let item of toPatchArray) {
+                    item[patchProp] = nativeFn;
+                }
             }
         }
 
-        toPatch[patchProp] = patchedFns[depth];
+        // apply patches
+        for(let item of toPatchArray) {
+            item[patchProp!] = patchedFns[depth];
+        }
     }
 
     const dispose = () => {
