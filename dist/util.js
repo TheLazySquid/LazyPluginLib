@@ -75,6 +75,8 @@ export function chainPatch(module, callback, ...path) {
                 toPatchArray.push(customPath);
             }
         }
+        if (toPatchArray.length === 0)
+            return;
         // patch the function
         if (!patchedFns[depth]) {
             let nativeFn = toPatchArray[0][patchProp];
