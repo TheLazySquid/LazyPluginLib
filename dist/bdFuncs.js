@@ -60,5 +60,7 @@ export const onSwitch = createCallbackHandler("onSwitch");
  * @param el - The element to be rendered in the settings panel
  */
 export const setSettingsPanel = (el) => {
+    if (typeof el === "function")
+        this.getSettingsPanel = el;
     this.getSettingsPanel = () => el;
 };

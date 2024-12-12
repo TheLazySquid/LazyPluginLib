@@ -70,6 +70,7 @@ export const onSwitch = createCallbackHandler("onSwitch");
  * Sets the settings panel to an HTML or React element
  * @param el - The element to be rendered in the settings panel
  */
-export const setSettingsPanel = (el: HTMLElement | ReactElement) => {
+export const setSettingsPanel = (el: HTMLElement | ReactElement | (() => HTMLElement | ReactElement)) => {
+    if(typeof el === "function") this.getSettingsPanel = el;
     this.getSettingsPanel = () => el;
 }

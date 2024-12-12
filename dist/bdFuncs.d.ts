@@ -27,4 +27,4 @@ export declare const onSwitch: (callback: () => void, once?: boolean, id?: strin
  * Sets the settings panel to an HTML or React element
  * @param el - The element to be rendered in the settings panel
  */
-export declare const setSettingsPanel: (el: HTMLElement | ReactElement) => void;
+export declare const setSettingsPanel: (el: HTMLElement | ReactElement | (() => HTMLElement | ReactElement)) => void;
